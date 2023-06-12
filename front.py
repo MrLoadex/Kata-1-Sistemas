@@ -266,6 +266,9 @@ class VentanaModificar(tk.Toplevel):
         self.destroy()
 
 
+#creo la coneccion con la base de datos
+student_database_impl.connect_db()
+
 # Crear la ventana principal
 window = Window()
 
