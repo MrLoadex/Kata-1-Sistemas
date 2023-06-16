@@ -1,4 +1,3 @@
-import tkinter as tk
 import sqlite3
 
 def connect_db():
@@ -38,10 +37,10 @@ def show_students():
     conn.close()
     return students
 
-#devuelve los datos del estudiante seleccionado
+#devuelve los datos del estudiante seleccionado 0=name, 1=dni, 2=career
 def get_student(student_id):
     conn=sqlite3.connect("students.db")
-    cursor=conn.execute("select name, DNI, career from students where student_id=?", (student_id, ))
+    cursor=conn.execute("SELECT name, DNI, career from students where student_id=?", (student_id, ))
     
     fila=cursor.fetchone()
     conn.close()   
@@ -64,10 +63,11 @@ def del_student(student_id):
     conn.commit()
     conn.close()  
 
+
+#necesita si o si la id
 def update_student(name = 0, DNI = 0, career = 0, student_id = 0):
     conn = sqlite3.connect("students.db")
     cursor = conn.cursor()
-    
     #copia en memoria los datos de la base de datos
     student_data = get_student(student_id)
     #Si la id era invalida finaliza (el error lo mostrara get_student)
@@ -75,9 +75,9 @@ def update_student(name = 0, DNI = 0, career = 0, student_id = 0):
         return 0
     
     #Reemplaza los valores no modificados por los valores viejos
-    name = student_data[0] if name == 0 else name.capitalize()
-    DNI = student_data[1] if DNI == 0 else DNI
-    career = student_data[2] if career == 0 else career 
+    name = student_data[0] if name == 0 or name =="" else name.capitalize()
+    DNI = student_data[1] if DNI == 0 or DNI=="" else DNI
+    career = student_data[2] if career == 0 or career=="" else career 
     
     # Actualizar los datos del estudiante en la tabla
     cursor.execute("""
@@ -92,18 +92,4 @@ def update_student(name = 0, DNI = 0, career = 0, student_id = 0):
 #Si se ejecuta el modulo solo
 if __name__ == "__main__":
     connect_db()
-
-    add_student("robertito",111111,"sistemas")
-    add_student("pedrito",222222,"sistemas")
-
-    print(show_students())
-
-    update_student(DNI = 654456, student_id = 1)
-    update_student(name = "juan", student_id = 1)
-    
-    print(get_student(1))
-    print(get_student(2))
-    del_student(2)
-
-    print(get_student(2))
     print(show_students())

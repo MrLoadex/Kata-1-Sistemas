@@ -65,7 +65,7 @@ class ListedFrame(ttk.Frame):
         
         #Actualiza la lista de estudiantes
         self.add_student()
-        
+
     def add_student(self):
         self.listbox.delete(0, tk.END)
         student_list = student_database_impl.show_students()
@@ -264,28 +264,3 @@ class EditWindow(tk.Toplevel):
 
         # Cerrar la ventana de modificar
         self.destroy()
-
-
-#creo la coneccion con la base de datos
-student_database_impl.connect_db()
-
-# Crear la ventana principal
-window = Window()
-
-# Crear el frame de listado en la solapa de Listado
-listado_frame = ListedFrame(window.flap_list)
-listado_frame.pack(fill=tk.BOTH, expand=True)
-
-# Crear el frame de agregar en la solapa de Agregar
-agregar_frame = AddFrame(window.flap_add)
-agregar_frame.pack(expand=True, padx=50, pady=10)
-
-# Crear el frame de buscar en la solapa de Buscar
-buscar_frame = BuscarFrame(window.flap_search)
-buscar_frame.pack(expand=True, padx=50, pady=10)
-
-# Ejemplo de agregar estudiantes al listado
-listado_frame.add_student()
-
-# Iniciar el bucle de eventos
-window.mainloop()
